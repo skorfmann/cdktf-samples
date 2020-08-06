@@ -24,10 +24,11 @@ class Ec2Stack extends TerraformStack {
     const instance = new Instance(this, 'Instance', {
       ami: props.ami ?? amzn2.imageId,
       instanceType: props.instanceType ?? 't3.large',
+      subnetId: vpc.publicSubnets![0],
       }
     )
 
-    new TerraformOutput(this, 'VpcId', { value: vpc.vpcIdOutput })
+    new TerraformOutput(this, 'VpcId', { value: vpc.vpc.vpcIdOutput })
     new TerraformOutput(this, 'AmiID', { value: amzn2.imageId })
     new TerraformOutput(this, 'InstanceId', { value: instance.id })
 
